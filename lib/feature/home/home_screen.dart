@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mediationapp/core/themes/colors.dart';
 import 'package:mediationapp/core/utils/error_text.dart';
-import 'package:mediationapp/core/utils/get_usage_states.dart';
+import 'package:mediationapp/feature/home/get_usage_states.dart';
 import 'package:mediationapp/core/utils/loader.dart';
 import 'package:mediationapp/feature/quotes/controller.dart';
 import 'package:mediationapp/widgets/app_item.dart';

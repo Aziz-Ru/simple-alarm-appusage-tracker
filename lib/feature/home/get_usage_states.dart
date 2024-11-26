@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mediationapp/feature/alarm/alarm_repo.dart';
 import 'package:mediationapp/feature/model/app_usage_ifo_model.dart';
 
 final appUsageStatsProvider = StateNotifierProvider<AppUsageStats, bool>((ref) {
@@ -10,8 +11,14 @@ final appUsageStatsProvider = StateNotifierProvider<AppUsageStats, bool>((ref) {
 });
 
 final getUsageStatsProvider = FutureProvider<List<AppUsageInfo>>((ref) async {
+  ref.watch(sharedPreferencesProvider);
   final appUsageStats = ref.watch(appUsageStatsProvider.notifier);
-  final isGranted = await appUsageStats.isUsageStatesGranted();
+  var isGranted = await appUsageStats.isUsageStatesGranted();
+  if (!isGranted) {
+    await appUsageStats.requestUsageStates();
+    await Future.delayed(const Duration(seconds: 2));
+    isGranted = await appUsageStats.isUsageStatesGranted();
+  }
   if (isGranted) {
     return await appUsageStats.getUsageStats();
   }
@@ -29,19 +36,27 @@ class AppUsageStats extends StateNotifier<bool> {
       try {
         final result =
             await _channel.invokeMethod('isUsageAccessGranted') ?? false;
-
         return result;
       } catch (e) {
-        // log(e.toString());
+        log('Error checking usage states permission: $e');
         return false;
       }
     }
     return false;
   }
 
+  Future<void> requestUsageStates() async {
+    if (Platform.isAndroid) {
+      try {
+        await _channel.invokeMethod('requestUsageAccess');
+      } catch (e) {
+        log('Error requesting usage states permission: $e');
+      }
+    }
+  }
+
   Future<List<AppUsageInfo>> getUsageStats() async {
     try {
-      // log('Fetching usage stats  in dart');
       final response = await _channel.invokeMethod('getUsageStats');
       List<AppUsageInfo> appUsageInfo = [];
       for (final item in response) {

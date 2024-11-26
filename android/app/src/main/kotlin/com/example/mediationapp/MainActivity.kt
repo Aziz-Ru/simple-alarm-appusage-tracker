@@ -11,6 +11,9 @@ import android.app.usage.UsageStatsManager;
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import android.util.Log;
+import android.content.Intent
+import android.provider.Settings
+
 
 import java.util.*
 
@@ -23,6 +26,10 @@ class MainActivity: FlutterActivity(){
             if (call.method == "isUsageAccessGranted") {
                 result.success(isUsageAccessGranted())
             }
+            if(call.method=="requestUsageAccess"){
+                startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                result.success(null)
+            }
             else if (call.method=="getUsageStats"){
                 result.success(getUsageStats())
             }
@@ -32,6 +39,7 @@ class MainActivity: FlutterActivity(){
         }
 
     }
+    
 
     private fun isUsageAccessGranted(): Boolean {
         val appOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager

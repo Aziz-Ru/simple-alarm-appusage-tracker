@@ -8,6 +8,7 @@ class Constants {
       size: 30,
       color: Colors.white,
     ),
+    Icon(Icons.timer, size: 30, color: Colors.white),
     Icon(Icons.format_quote, size: 30, color: Colors.white),
   ];
 

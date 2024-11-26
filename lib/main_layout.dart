@@ -4,6 +4,7 @@ import 'package:mediationapp/core/constants/constants.dart';
 import 'package:mediationapp/core/themes/colors.dart';
 import 'package:mediationapp/feature/alarm/alarm_screen.dart';
 import 'package:mediationapp/feature/home/home_screen.dart';
+import 'package:mediationapp/feature/pomodometer/pomo_screen.dart';
 import 'package:mediationapp/feature/quotes/quotes_screen.dart';
 
 class MainLayout extends StatefulWidget {
@@ -17,6 +18,7 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> screens = const [
     HomeScreen(),
     AlarmScreen(),
+    PomodoMeter(),
     QuotesScreen(),
   ];
 

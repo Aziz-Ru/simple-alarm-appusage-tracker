@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mediationapp/core/themes/colors.dart';
-import 'package:mediationapp/screens/main_layout.dart';
+import 'package:mediationapp/feature/alarm/utitls.dart';
+import 'package:mediationapp/main_layout.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init();
+
+  tz.initializeTimeZones();
   runApp(const ProviderScope(child: MyApp()));
 }
 
