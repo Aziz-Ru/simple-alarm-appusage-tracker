@@ -17,14 +17,16 @@ class _PomodoMeterState extends ConsumerState<PomodoMeter> {
   int timeInMinutes = 25;
   int timeInSeconds = 1500;
   Timer? timer;
+  bool isRunning = false;
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (timeInSeconds > 0) {
           timeInSeconds--;
-          percent =
-              timeInSeconds / 1500; // Calculate percentage based on time left
+          percent = timeInSeconds / 1500;
+          // Calculate percentage based on time left
+          isRunning = true;
         } else {
           timer.cancel(); // Stop the timer when time is up
         }
@@ -37,7 +39,8 @@ class _PomodoMeterState extends ConsumerState<PomodoMeter> {
     setState(() {
       timer?.cancel();
       timeInSeconds = 1500;
-      percent = 1.0; // Reset to 100%
+      percent = 1.0;
+      isRunning = false;
     });
   }
 
@@ -57,7 +60,7 @@ class _PomodoMeterState extends ConsumerState<PomodoMeter> {
           'Timer',
           style: TextStyle(
               color: AppColors.textIcons,
-              fontSize: 20,
+              fontSize: 26,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -84,10 +87,11 @@ class _PomodoMeterState extends ConsumerState<PomodoMeter> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: isRunning ? Colors.grey : Colors.blue),
                   onPressed: () {
                     if (timer == null || !timer!.isActive) {
-                      startTimer(); // Start the timer if it's not running
+                      startTimer();
                     }
                   },
                   child: const Text(

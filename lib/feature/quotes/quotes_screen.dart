@@ -19,7 +19,7 @@ class QuotesScreen extends ConsumerWidget {
           'Inspirational Quotes',
           style: TextStyle(
               color: AppColors.textIcons,
-              fontSize: 20,
+              fontSize: 26,
               fontWeight: FontWeight.bold),
         ),
       ),

@@ -56,7 +56,7 @@ class _AlarmScreenState extends ConsumerState<AlarmScreen> {
           'Reminder',
           style: TextStyle(
               color: AppColors.textIcons,
-              fontSize: 24,
+              fontSize: 26,
               fontWeight: FontWeight.bold),
         ),
       ),
